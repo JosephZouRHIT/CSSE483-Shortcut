@@ -13,4 +13,8 @@
     <string name="menu_tools">Tools</string>
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
+    <string name="time_detail">Total Time</string>
+    <string name="description_detail">Description</string>
+    <string name="apps">Apps</string>
+    <string name="actions">Actions</string>
 </resources>
