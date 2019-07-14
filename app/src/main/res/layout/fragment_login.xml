@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+             xmlns:tools="http://schemas.android.com/tools"
+             android:layout_width="match_parent"
+             android:layout_height="match_parent"
+             tools:context=".Login">
+
+    <TextView
+            android:id="@+id/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/shortcut_title"
+            android:textSize="60sp"
+            android:textStyle="bold"
+            android:layout_centerHorizontal="true"
+            android:layout_marginBottom="30dp"
+            android:layout_above="@+id/username_input_login"/>
+
+    <EditText
+            android:layout_width="294dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/username_input_login"
+            android:layout_centerInParent="true"
+            android:textSize="25sp"
+            android:hint="@string/username_hint"/>
+
+    <EditText
+            android:layout_width="294dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/password_input_login"
+            android:layout_centerInParent="true"
+            android:textSize="25sp"
+            android:hint="@string/password_hint"
+            android:layout_below="@+id/username_input_login"/>
+
+    <Button
+            android:layout_width="147dp"
+            android:layout_height="wrap_content"
+            android:id="@+id/login_button"
+            android:layout_below="@+id/password_input_login"
+            android:layout_centerHorizontal="true"
+            android:text="@string/login_text"
+            android:textSize="25sp"
+            android:layout_marginTop="30dp"/>
+
+</RelativeLayout>

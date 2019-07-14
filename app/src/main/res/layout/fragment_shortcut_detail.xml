@@ -1,27 +1,31 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
         xmlns:android="http://schemas.android.com/apk/res/android"
-        xmlns:app="http://schemas.android.com/apk/res-auto"
-        android:orientation="vertical"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/colorGray"
->
+        android:background="@color/colorGray">
 
-    <com.google.android.material.appbar.AppBarLayout
+    <TextView
+            android:text="@string/title_text"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_width="match_parent"
-            android:id="@+id/app_bar"
-            android:theme="@style/AppTheme.AppBarOverlay">
+            android:textSize="25sp"
+            android:textStyle="bold"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/title_shortcut_title_detail"
+            android:layout_marginTop="20dp"
+            android:layout_alignLeft="@+id/total_time_detail"/>
 
-        <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/colorRed"
-                app:popupTheme="@style/AppTheme.PopupOverlay"/>
-
-    </com.google.android.material.appbar.AppBarLayout>
+    <TextView
+            android:text="@string/title_text"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="25sp"
+            android:textColor="@color/colorBlack"
+            android:id="@+id/shortcut_title_detail"
+            android:layout_toRightOf="@id/title_shortcut_title_detail"
+            android:layout_marginLeft="40dp"
+            android:layout_alignTop="@+id/title_shortcut_title_detail"/>
 
     <TextView
             android:text="@string/time_detail"
@@ -31,8 +35,8 @@
             android:textStyle="bold"
             android:textColor="@color/colorBlack"
             android:id="@+id/total_time_detail"
-            android:layout_below="@+id/app_bar"
-            android:layout_margin="20dp"/>
+            android:layout_margin="20dp"
+            android:layout_below="@+id/title_shortcut_title_detail"/>
 
     <TextView
             android:text="time"
@@ -42,8 +46,8 @@
             android:textColor="@color/colorBlack"
             android:id="@+id/time_detail"
             android:layout_toRightOf="@id/total_time_detail"
-            android:layout_below="@+id/app_bar"
-            android:layout_margin="20dp"/>
+            android:layout_marginLeft="20dp"
+            android:layout_alignTop="@+id/total_time_detail"/>
 
     <TextView
             android:text="@string/description_detail"
@@ -58,13 +62,15 @@
 
     <TextView
             android:text="some description"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="388dp"
+            android:layout_height="124dp"
             android:textSize="25sp"
             android:textColor="@color/colorBlack"
             android:id="@+id/description_detail"
             android:layout_below="@+id/description_title_detail"
-            android:layout_margin="20dp"/>
+            android:layout_marginTop="-16dp"
+            android:layout_marginLeft="20dp"
+            android:layout_marginRight="20dp"/>
 
     <TextView
             android:text="@string/apps"
@@ -75,11 +81,13 @@
             android:textColor="@color/colorBlack"
             android:id="@+id/apps_title_detail"
             android:layout_below="@+id/description_detail"
-            android:layout_margin="20dp"/>
+            android:layout_margin="20dp"
+            android:layout_marginBottom="20dp"
+            android:layout_marginLeft="20dp"/>
 
     <TableRow android:layout_width="wrap_content"
               android:layout_height="wrap_content"
-              android:id="@+id/app_buttons"
+              android:id="@+id/app_icons"
               android:layout_marginLeft="20dp"
               android:layout_below="@+id/apps_title_detail"
     >
@@ -104,7 +112,7 @@
             android:textStyle="bold"
             android:textColor="@color/colorBlack"
             android:id="@+id/actions_title"
-            android:layout_below="@+id/app_buttons"
+            android:layout_below="@+id/app_icons"
             android:layout_margin="20dp"/>
 
     <androidx.recyclerview.widget.RecyclerView
