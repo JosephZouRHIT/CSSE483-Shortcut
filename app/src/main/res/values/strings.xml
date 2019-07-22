@@ -24,4 +24,5 @@
     <string name="apps">Apps</string>
     <string name="actions">Actions</string>
     <string name="title_text">Title</string>
+    <string name="tap_text">Tap</string>
 </resources>

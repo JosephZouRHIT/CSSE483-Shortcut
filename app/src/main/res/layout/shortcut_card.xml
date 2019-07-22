@@ -19,6 +19,7 @@
             android:layout_below="@+id/shortcut_title"/>
 
     <ImageView
+            android:id="@+id/detail_button"
             android:layout_width="40dp"
             android:layout_height="40dp"
             android:layout_centerVertical="true"
