@@ -11,6 +11,7 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import androidx.fragment.app.Fragment
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -64,26 +65,33 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
+        var switchTo: Fragment? = null
         when (item.itemId) {
-            R.id.nav_home -> {
-                // Handle the camera action
-            }
-            R.id.nav_gallery -> {
 
+            R.id.shortcut_list -> {
+                switchTo = ShortcutList()
             }
-            R.id.nav_slideshow -> {
-
-            }
-            R.id.nav_tools -> {
-
+            R.id.new_shortcut -> {
+                TODO()
+//                switchTo = newShortcut()
             }
             R.id.nav_share -> {
-
+                switchTo = ShareFragment()
             }
             R.id.nav_send -> {
-
+                switchTo = SendFragment()
             }
         }
+
+        if (switchTo != null){
+            val ft = supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragment_container, switchTo)
+            while(supportFragmentManager.backStackEntryCount > 0){
+                supportFragmentManager.popBackStack()
+            }
+            ft.commit()
+        }
+
         val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
