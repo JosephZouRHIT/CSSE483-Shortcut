@@ -29,4 +29,7 @@
     <string name="new_shortcut">New Shortcut</string>
     <string name="share">Share Shortcut</string>
     <string name="send_shortcut">Send Shortcut</string>
+    <string name="appwidget_text">EXAMPLE</string>
+    <string name="add_widget">Add widget</string>
+    <string name="shortcut_widget">Shortcut</string>
 </resources>

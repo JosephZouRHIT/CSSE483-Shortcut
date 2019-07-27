@@ -67,19 +67,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // Handle navigation view item clicks here.
         var switchTo: Fragment? = null
         when (item.itemId) {
-
             R.id.shortcut_list -> {
                 switchTo = ShortcutList()
-            }
-            R.id.new_shortcut -> {
-                TODO()
-//                switchTo = newShortcut()
-            }
-            R.id.nav_share -> {
-                switchTo = ShareFragment()
-            }
-            R.id.nav_send -> {
-                switchTo = SendFragment()
             }
         }
 
