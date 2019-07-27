@@ -6,19 +6,13 @@
     <group android:checkableBehavior="single">
 
         <item
-                android:id="@+id/shortcut_list"
+                android:id="@+id/drawer_list"
                 android:icon="@drawable/ic_menu_gallery"
                 android:title="@string/my_shortcuts"/>
         <item
-                android:id="@+id/new_shortcut"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="@string/new_shortcut"/>
-
-        <item
-                android:id="@+id/nav_share"
-                android:icon="@drawable/ic_menu_slideshow"
-                android:title="@string/share"/>
-
+                android:id="@+id/drawer_settings"
+                android:icon="@drawable/ic_action_settings"
+                android:title="@string/settings"/>
 
     </group>
 

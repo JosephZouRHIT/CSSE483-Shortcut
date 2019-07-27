@@ -1,6 +1,8 @@
 package edu.rosehulman.zous_liua1.shortcut
 
+import android.content.Intent
 import android.os.Bundle
+import android.provider.Settings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.GravityCompat
@@ -11,9 +13,10 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ShortcutList.OnShortcutListener {
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -27,7 +30,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
                 .setAction("Action", null).show()
         }
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val drawerLayout: DrawerLayout = findViewById(R.id.main)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
             this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close
@@ -36,10 +39,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         navView.setNavigationItemSelectedListener(this)
+        switchToShortcutListFragment()
+    }
+
+    private fun switchToShortcutListFragment() {
+        val ft = supportFragmentManager.beginTransaction()
+        val fragment = ShortcutList()
+        ft.replace(R.id.main, fragment)
+        ft.commit()
     }
 
     override fun onBackPressed() {
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val drawerLayout: DrawerLayout = findViewById(R.id.main)
         if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
             drawerLayout.closeDrawer(GravityCompat.START)
         } else {
@@ -65,24 +76,27 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
-        var switchTo: Fragment? = null
         when (item.itemId) {
-            R.id.shortcut_list -> {
-                switchTo = ShortcutList()
+            R.id.drawer_list -> {
+                switchToShortcutListFragment()
+            }
+
+            R.id.drawer_settings -> {
+                startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
             }
         }
 
-        if (switchTo != null){
-            val ft = supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragment_container, switchTo)
-            while(supportFragmentManager.backStackEntryCount > 0){
-                supportFragmentManager.popBackStack()
-            }
-            ft.commit()
-        }
-
-        val drawerLayout: DrawerLayout = findViewById(R.id.drawer_layout)
+        val drawerLayout: DrawerLayout = findViewById(R.id.main)
         drawerLayout.closeDrawer(GravityCompat.START)
         return true
+    }
+
+
+    override fun onShortcutSelected(shortCut: ShortCut) {
+        val fragment = ShortCutDetail()
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.main, fragment)
+        ft.addToBackStack("detail")
+        ft.commit()
     }
 }
