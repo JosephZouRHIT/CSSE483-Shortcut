@@ -45,7 +45,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private fun switchToShortcutListFragment() {
         val ft = supportFragmentManager.beginTransaction()
         val fragment = ShortcutList()
-        ft.replace(R.id.main, fragment)
+        ft.replace(R.id.fragment_container, fragment)
         ft.commit()
     }
 

@@ -11,8 +11,8 @@ class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortcu
     //    private var shortCutList = ArrayList<ShortCut>()
     //model object
     private var shortCutList = arrayListOf<ShortCut>(
-        ShortCut("sc1", "not available"),
-        ShortCut("sc2", "not available")
+        ShortCut("shortcut1", "not available"),
+        ShortCut("shortcut2", "not available")
     )
 
 

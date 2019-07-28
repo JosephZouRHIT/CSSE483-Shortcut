@@ -4,7 +4,7 @@
                                            android:layout_width="match_parent"
                                            android:layout_height="match_parent"
                                            tools:context=".ShortcutList"
-                                           android:layout_marginTop="?attr/actionBarSize"
+                                           android:background="@color/colorGray"
                                            android:id="@+id/shortcut_list_view">
 </androidx.recyclerview.widget.RecyclerView>
 
