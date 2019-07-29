@@ -10,7 +10,7 @@ class AppAdapter(var context: Context): RecyclerView.Adapter<AppVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppVH {
         val view = LayoutInflater.from(context).inflate(R.layout.app_card, parent, false)
-        return AppVH(view)
+        return AppVH(view, context)
     }
 
     override fun getItemCount(): Int = appList.size

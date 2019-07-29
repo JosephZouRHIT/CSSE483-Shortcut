@@ -1,10 +1,11 @@
 package edu.rosehulman.zous_liua1.shortcut
 
+import android.content.Context
 import android.view.View
 import androidx.recyclerview.widget.RecyclerView
 import kotlinx.android.synthetic.main.app_card.view.*
 
-class AppVH(itemView: View): RecyclerView.ViewHolder(itemView) {
+class AppVH(itemView: View, val context:Context): RecyclerView.ViewHolder(itemView) {
     private val imgView = itemView.app_icon_card
     private lateinit var app: App
 
@@ -15,8 +16,7 @@ class AppVH(itemView: View): RecyclerView.ViewHolder(itemView) {
     }
 
     fun bind(app: App){
-        //TODO: change after finding ways to grab app icons
-        imgView.setImageResource(app.imgResource)
+        imgView.setImageDrawable(app.pkgInfo.applicationInfo.loadIcon(context.packageManager))
         this.app = app
     }
 }

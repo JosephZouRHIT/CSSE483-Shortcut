@@ -9,7 +9,7 @@ android {
     buildToolsVersion "29.0.0"
     defaultConfig {
         applicationId "edu.rosehulman.zous_liua1.shortcut"
-        minSdkVersion 18
+        minSdkVersion 23
         targetSdkVersion 29
         versionCode 1
         versionName "1.0"

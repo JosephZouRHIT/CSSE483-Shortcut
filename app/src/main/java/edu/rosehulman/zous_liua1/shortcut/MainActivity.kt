@@ -27,8 +27,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         val fab: FloatingActionButton = findViewById(R.id.fab)
         fab.setOnClickListener { view ->
-            Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                .setAction("Action", null).show()
+            switchToCreateShortcutFragment()
         }
         val drawerLayout: DrawerLayout = findViewById(R.id.main)
         val navView: NavigationView = findViewById(R.id.nav_view)
@@ -47,6 +46,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val fragment = ShortcutList()
         ft.replace(R.id.fragment_container, fragment)
         ft.commit()
+    }
+
+    private fun switchToCreateShortcutFragment(){
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container, InstalledAppList())
+        ft.addToBackStack("installedApps")
+        ft.commit()
+    }
+
+    fun finishedSelectingApps(){
+        val ft = supportFragmentManager.beginTransaction()
     }
 
     override fun onBackPressed() {
