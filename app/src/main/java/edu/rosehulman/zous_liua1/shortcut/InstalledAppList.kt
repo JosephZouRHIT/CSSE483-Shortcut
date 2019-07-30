@@ -10,9 +10,10 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
+import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.fragment_installed_app_list.view.*
 
-class InstalledAppList : Fragment() {
+class InstalledAppList : Fragment(){
     lateinit var adapter: InstalledAppAdapter
 
     override fun onCreateView(
@@ -24,6 +25,16 @@ class InstalledAppList : Fragment() {
         view.installed_app_list_recycler_view.adapter = adapter
         view.installed_app_list_recycler_view.setHasFixedSize(true)
         view.installed_app_list_recycler_view.layoutManager = LinearLayoutManager(context)
+        val fab = (context!! as MainActivity).fab
+        fab.setImageResource(R.drawable.ic_check_white_24dp)
+        fab.setOnClickListener {
+            val shortCut = ShortCut(Constants.DEFAULT_SHORTCUT_NAME, Constants.DEFAULT_SHORTCUT_DESCRIPTION, adapter.selectedApps)
+            (context!! as MainActivity).supportFragmentManager.popBackStack()
+            val ft = (context!! as MainActivity).supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragment_container, ShortCutEdit.newInstance(shortCut))
+            ft.addToBackStack("new shortcut")
+            ft.commit()
+        }
         return view
     }
 
@@ -41,6 +52,7 @@ class InstalledAppList : Fragment() {
 
     override fun onDestroyView() {
         super.onDestroyView()
+        (context!! as MainActivity).resetFab()
         (context!! as MainActivity).supportFragmentManager.beginTransaction().remove(this).commit()
     }
 

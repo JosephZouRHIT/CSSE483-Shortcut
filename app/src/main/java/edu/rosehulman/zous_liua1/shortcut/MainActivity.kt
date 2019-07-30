@@ -13,11 +13,15 @@ import com.google.android.material.navigation.NavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
+import android.widget.Toast
 import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
+import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ShortcutList.OnShortcutListener {
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ShortcutList.OnShortcutListener
+    , ShortCutEdit.OnAppClickedListener{
 
+    private lateinit var fab: FloatingActionButton
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -25,10 +29,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
 
-        val fab: FloatingActionButton = findViewById(R.id.fab)
-        fab.setOnClickListener { view ->
-            switchToCreateShortcutFragment()
-        }
+        fab = findViewById(R.id.fab)
+        resetFab()
         val drawerLayout: DrawerLayout = findViewById(R.id.main)
         val navView: NavigationView = findViewById(R.id.nav_view)
         val toggle = ActionBarDrawerToggle(
@@ -53,10 +55,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ft.replace(R.id.fragment_container, InstalledAppList())
         ft.addToBackStack("installedApps")
         ft.commit()
-    }
-
-    fun finishedSelectingApps(){
-        val ft = supportFragmentManager.beginTransaction()
     }
 
     override fun onBackPressed() {
@@ -108,5 +106,23 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ft.replace(R.id.main, fragment)
         ft.addToBackStack("detail")
         ft.commit()
+    }
+
+    override fun onAppClicked(app: App) {
+        val pkgName = app.pkgInfo.packageName
+        val intent = packageManager.getLaunchIntentForPackage(pkgName)
+        intent?.addCategory(Intent.CATEGORY_LAUNCHER)
+        if(intent != null){
+            startActivity(intent)
+        }else{
+            Toast.makeText(this, "Cannot launch app", Toast.LENGTH_LONG).show()
+        }
+    }
+
+    fun resetFab(){
+        fab.setImageResource(R.drawable.ic_add_white)
+        fab.setOnClickListener {
+            switchToCreateShortcutFragment()
+        }
     }
 }
