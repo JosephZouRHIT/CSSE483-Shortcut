@@ -1,6 +1,7 @@
 package edu.rosehulman.zous_liua1.shortcut
 
 import android.content.Intent
+import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -18,8 +19,9 @@ import androidx.appcompat.app.AlertDialog
 import androidx.fragment.app.Fragment
 import kotlinx.android.synthetic.main.app_bar_main.*
 
-class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, ShortcutList.OnShortcutListener
-    , ShortCutEdit.OnAppClickedListener{
+class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
+    ShortcutList.OnShortcutListener
+    , ShortCutEdit.OnAppClickedListener {
 
     private lateinit var fab: FloatingActionButton
 
@@ -28,6 +30,17 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+
+        var isDrawn = true
+        var intent: Intent? = null
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+            isDrawn = Settings.canDrawOverlays(this)
+            if (!isDrawn){
+                startActivity(intent)
+            }
+        }
 
         fab = findViewById(R.id.fab)
         resetFab()
@@ -50,7 +63,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ft.commit()
     }
 
-    private fun switchToCreateShortcutFragment(){
+    private fun switchToCreateShortcutFragment() {
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, InstalledAppList())
         ft.addToBackStack("installedApps")
@@ -112,17 +125,19 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val pkgName = app.pkgInfo.packageName
         val intent = packageManager.getLaunchIntentForPackage(pkgName)
         intent?.addCategory(Intent.CATEGORY_LAUNCHER)
-        if(intent != null){
+        if (intent != null) {
             startActivity(intent)
-        }else{
+        } else {
             Toast.makeText(this, "Cannot launch app", Toast.LENGTH_LONG).show()
         }
     }
 
-    fun resetFab(){
+    fun resetFab() {
         fab.setImageResource(R.drawable.ic_add_white)
         fab.setOnClickListener {
             switchToCreateShortcutFragment()
+            val service = Intent(this, OverlayService::class.java)
+            startService(service)
         }
     }
 }
