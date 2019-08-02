@@ -16,7 +16,7 @@ private const val ARG_PARAM2 = "param2"
 
 
 class ShortcutList : Fragment() {
-    private var listener: OnShortcutListener? = null
+    private var listener: OnShortCutSelectedListener? = null
     var adapter: ShortCutAdapter? = null
 
     override fun onCreateView(
@@ -39,13 +39,9 @@ class ShortcutList : Fragment() {
         adapter
     }
 
-    fun onButtonPressed(shortCut: ShortCut) {
-        listener?.onShortcutSelected(shortCut)
-    }
-
     override fun onAttach(context: Context) {
         super.onAttach(context)
-        if (context is OnShortcutListener) {
+        if (context is OnShortCutSelectedListener) {
             listener = context
         } else {
             throw RuntimeException(context.toString() + " must implement OnShortcutListener")
@@ -57,7 +53,8 @@ class ShortcutList : Fragment() {
         listener = null
     }
 
-    interface OnShortcutListener {
-        fun onShortcutSelected(shortCut: ShortCut)
+    interface OnShortCutSelectedListener {
+        fun onSCSelected(shortCut: ShortCut)
     }
+
 }

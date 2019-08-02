@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortcutListener) :
+class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCutSelectedListener) :
     RecyclerView.Adapter<ShortCutVH>() {
 
     //    private var shortCutList = ArrayList<ShortCut>()
@@ -27,8 +27,8 @@ class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortcu
         holder.bind(this.shortCutList[position])
     }
 
-    fun selectTeamAt(adapterPosition: Int) {
+    fun selectShortcutAt(adapterPosition: Int) {
         val shortCut = this.shortCutList[adapterPosition]
-        listener.onShortcutSelected(shortCut)
+        listener.onSCSelected(shortCut)
     }
 }

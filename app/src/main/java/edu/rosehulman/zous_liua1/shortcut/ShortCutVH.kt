@@ -13,7 +13,7 @@ class ShortCutVH(itemView: View, adapter: ShortCutAdapter): RecyclerView.ViewHol
 
     init{
         button.setOnClickListener {
-            adapter.selectTeamAt(adapterPosition)
+            adapter.selectShortcutAt(adapterPosition)
         }
     }
 

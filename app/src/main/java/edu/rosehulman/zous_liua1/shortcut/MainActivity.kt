@@ -5,7 +5,6 @@ import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
 import com.google.android.material.floatingactionbutton.FloatingActionButton
-import com.google.android.material.snackbar.Snackbar
 import androidx.core.view.GravityCompat
 import androidx.appcompat.app.ActionBarDrawerToggle
 import android.view.MenuItem
@@ -15,13 +14,9 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.widget.Toast
-import androidx.appcompat.app.AlertDialog
-import androidx.fragment.app.Fragment
-import kotlinx.android.synthetic.main.app_bar_main.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
-    ShortcutList.OnShortcutListener
-    , ShortCutEdit.OnAppClickedListener {
+   ShortCutEdit.OnAppClickedListener, ShortcutList.OnShortCutSelectedListener {
 
     private lateinit var fab: FloatingActionButton
 
@@ -112,8 +107,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-
-    override fun onShortcutSelected(shortCut: ShortCut) {
+    override fun onSCSelected(shortCut: ShortCut) {
+        val service = Intent(this, OverlayService::class.java)
+        startService(service)
         val fragment = ShortCutDetail()
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.main, fragment)
@@ -127,6 +123,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         intent?.addCategory(Intent.CATEGORY_LAUNCHER)
         if (intent != null) {
             startActivity(intent)
+
         } else {
             Toast.makeText(this, "Cannot launch app", Toast.LENGTH_LONG).show()
         }
@@ -136,8 +133,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         fab.setImageResource(R.drawable.ic_add_white)
         fab.setOnClickListener {
             switchToCreateShortcutFragment()
-            val service = Intent(this, OverlayService::class.java)
-            startService(service)
         }
     }
+
+
 }
