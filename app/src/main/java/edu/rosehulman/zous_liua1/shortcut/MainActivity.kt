@@ -108,13 +108,16 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onSCSelected(shortCut: ShortCut) {
-        val service = Intent(this, OverlayService::class.java)
-        startService(service)
         val fragment = ShortCutDetail()
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.main, fragment)
         ft.addToBackStack("detail")
         ft.commit()
+    }
+
+    override fun onSCSelectedForService(shortCut: ShortCut) {
+        val service = Intent(this, OverlayService::class.java)
+        startService(service)
     }
 
     override fun onAppClicked(app: App) {

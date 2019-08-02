@@ -31,4 +31,9 @@ class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCu
         val shortCut = this.shortCutList[adapterPosition]
         listener.onSCSelected(shortCut)
     }
+
+    fun selectShortcutForServiceAt(adapterPosition: Int) {
+        val shortCut = this.shortCutList[adapterPosition]
+        listener.onSCSelectedForService(shortCut)
+    }
 }

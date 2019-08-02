@@ -55,6 +55,7 @@ class ShortcutList : Fragment() {
 
     interface OnShortCutSelectedListener {
         fun onSCSelected(shortCut: ShortCut)
+        fun onSCSelectedForService(shortCut: ShortCut)
     }
 
 }
