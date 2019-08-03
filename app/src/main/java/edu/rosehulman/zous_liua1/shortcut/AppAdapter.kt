@@ -5,7 +5,7 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class AppAdapter(var context: Context, var appList: ArrayList<App>, var listener: ShortCutEdit.OnAppClickedListener): RecyclerView.Adapter<AppVH>() {
+class AppAdapter(var context: Context, var appList: ArrayList<App>, var listener: ShortCutEdit.OnAppClickedListener?, val isEditable: Boolean): RecyclerView.Adapter<AppVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppVH {
         val view = LayoutInflater.from(context).inflate(R.layout.app_card, parent, false)
@@ -19,6 +19,8 @@ class AppAdapter(var context: Context, var appList: ArrayList<App>, var listener
     }
 
     fun appClicked(position: Int){
-        listener.onAppClicked(appList[position])
+        if(isEditable){
+            listener?.onAppClicked(appList[position])
+        }
     }
 }

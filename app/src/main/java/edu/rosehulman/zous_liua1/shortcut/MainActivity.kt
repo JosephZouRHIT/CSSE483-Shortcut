@@ -19,12 +19,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
    ShortCutEdit.OnAppClickedListener, ShortcutList.OnShortCutSelectedListener {
 
     private lateinit var fab: FloatingActionButton
+    lateinit var shortcutList: ShortcutList
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
+        shortcutList = ShortcutList()
 
         var isDrawn = true
         var intent: Intent? = null
@@ -53,8 +55,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun switchToShortcutListFragment() {
         val ft = supportFragmentManager.beginTransaction()
-        val fragment = ShortcutList()
-        ft.replace(R.id.fragment_container, fragment)
+        ft.replace(R.id.fragment_container, shortcutList)
         ft.commit()
     }
 
@@ -107,10 +108,10 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    override fun onSCSelected(shortCut: ShortCut) {
-        val fragment = ShortCutDetail()
+    override fun onSCSelected(shortCut: ShortCut, position: Int) {
+        val fragment = ShortCutDetail.newInstance(shortCut, position)
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.main, fragment)
+        ft.replace(R.id.fragment_container, fragment)
         ft.addToBackStack("detail")
         ft.commit()
     }
@@ -126,7 +127,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         intent?.addCategory(Intent.CATEGORY_LAUNCHER)
         if (intent != null) {
             startActivity(intent)
-
         } else {
             Toast.makeText(this, "Cannot launch app", Toast.LENGTH_LONG).show()
         }
@@ -139,5 +139,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-
+    fun resetTitle(){
+        title = getString(R.string.app_name)
+    }
 }

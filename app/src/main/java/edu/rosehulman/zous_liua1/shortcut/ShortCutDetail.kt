@@ -6,29 +6,23 @@ import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import kotlinx.android.synthetic.main.app_bar_main.*
+import kotlinx.android.synthetic.main.fragment_shortcut_detail.view.*
 
+private const val ARG_SHORTCUT = "shortcut"
+private const val ARG_POSITION = "position"
 
-// TODO: Rename parameter arguments, choose names that match
-// the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-/**
- * A simple [Fragment] subclass.
- * Use the [ShortCutDetail.newInstance] factory method to
- * create an instance of this fragment.
- *
- */
 class ShortCutDetail : Fragment() {
-    // TODO: Rename and change types of parameters
-    private var param1: String? = null
-    private var param2: String? = null
+    private lateinit var shortcut: ShortCut
+    private var position: Int = -1
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         arguments?.let {
-            param1 = it.getString(ARG_PARAM1)
-            param2 = it.getString(ARG_PARAM2)
+            shortcut = it.getParcelable<ShortCut>(ARG_SHORTCUT)!!
+            position = it.getInt(ARG_POSITION)
         }
     }
 
@@ -36,27 +30,34 @@ class ShortCutDetail : Fragment() {
         inflater: LayoutInflater, container: ViewGroup?,
         savedInstanceState: Bundle?
     ): View? {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_shortcut_detail, container, false)
+        val view = inflater.inflate(R.layout.fragment_shortcut_detail, container, false)
+        view.shortcut_title_detail.text = shortcut.title
+        view.description_detail.text = shortcut.description
+        view.app_list_detail.adapter = AppAdapter(context!!, shortcut.appList, null, false)
+        val manager = LinearLayoutManager(context)
+        manager.orientation = LinearLayoutManager.HORIZONTAL
+        view.app_list_detail.layoutManager = manager
+        view.app_list_detail.setHasFixedSize(true)
+        (context!! as MainActivity).title = shortcut.title
+        val fab = (context!! as MainActivity).fab
+        fab.setImageResource(R.drawable.ic_edit_black_24dp)
+        fab.setOnClickListener {
+            val ft = (context!! as MainActivity).supportFragmentManager.beginTransaction()
+            ft.replace(R.id.fragment_container, ShortCutEdit.newInstance(shortcut, position))
+            ft.addToBackStack("edit")
+            ft.commit()
+        }
+        return view
     }
 
 
     companion object {
-        /**
-         * Use this factory method to create a new instance of
-         * this fragment using the provided parameters.
-         *
-         * @param param1 Parameter 1.
-         * @param param2 Parameter 2.
-         * @return A new instance of fragment ShortCutDetail.
-         */
-        // TODO: Rename and change types and number of parameters
         @JvmStatic
-        fun newInstance(param1: String, param2: String) =
+        fun newInstance(shortcut: ShortCut, position: Int) =
             ShortCutDetail().apply {
                 arguments = Bundle().apply {
-                    putString(ARG_PARAM1, param1)
-                    putString(ARG_PARAM2, param2)
+                    putParcelable(ARG_SHORTCUT, shortcut)
+                    putInt(ARG_POSITION, position)
                 }
             }
     }

@@ -1,9 +1,6 @@
 package edu.rosehulman.zous_liua1.shortcut
 
-import android.content.Context
 import android.content.pm.ApplicationInfo
-import android.content.pm.PackageInfo
-import android.net.Uri
 import android.os.Bundle
 import androidx.fragment.app.Fragment
 import android.view.LayoutInflater
@@ -25,13 +22,14 @@ class InstalledAppList : Fragment(){
         view.installed_app_list_recycler_view.adapter = adapter
         view.installed_app_list_recycler_view.setHasFixedSize(true)
         view.installed_app_list_recycler_view.layoutManager = LinearLayoutManager(context)
+        (context!! as MainActivity).title = getString(R.string.title_select_apps)
         val fab = (context!! as MainActivity).fab
         fab.setImageResource(R.drawable.ic_check_white_24dp)
         fab.setOnClickListener {
-            val shortCut = ShortCut(Constants.DEFAULT_SHORTCUT_NAME, Constants.DEFAULT_SHORTCUT_DESCRIPTION, adapter.selectedApps)
+            val shortcut = ShortCut(Constants.DEFAULT_SHORTCUT_NAME, Constants.DEFAULT_SHORTCUT_DESCRIPTION, adapter.selectedApps)
             (context!! as MainActivity).supportFragmentManager.popBackStack()
             val ft = (context!! as MainActivity).supportFragmentManager.beginTransaction()
-            ft.replace(R.id.fragment_container, ShortCutEdit.newInstance(shortCut))
+            ft.replace(R.id.fragment_container, ShortCutEdit.newInstance(shortcut, -1))
             ft.addToBackStack("new shortcut")
             ft.commit()
         }

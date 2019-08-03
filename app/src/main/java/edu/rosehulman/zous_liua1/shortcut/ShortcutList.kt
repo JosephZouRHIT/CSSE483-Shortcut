@@ -17,7 +17,7 @@ private const val ARG_PARAM2 = "param2"
 
 class ShortcutList : Fragment() {
     private var listener: OnShortCutSelectedListener? = null
-    var adapter: ShortCutAdapter? = null
+    lateinit var adapter: ShortCutAdapter
 
     override fun onCreateView(
         inflater: LayoutInflater, container: ViewGroup?,
@@ -26,7 +26,6 @@ class ShortcutList : Fragment() {
         // Inflate the layout for this fragment
 
         val recyclerView = inflater.inflate(R.layout.fragment_shortcut_list, container, false) as RecyclerView
-        val adapter = ShortCutAdapter(context!!, listener!!)
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
@@ -36,7 +35,6 @@ class ShortcutList : Fragment() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         adapter = ShortCutAdapter(activity!!, listener!!)
-        adapter
     }
 
     override fun onAttach(context: Context) {
@@ -54,7 +52,7 @@ class ShortcutList : Fragment() {
     }
 
     interface OnShortCutSelectedListener {
-        fun onSCSelected(shortCut: ShortCut)
+        fun onSCSelected(shortCut: ShortCut, position: Int)
         fun onSCSelectedForService(shortCut: ShortCut)
     }
 

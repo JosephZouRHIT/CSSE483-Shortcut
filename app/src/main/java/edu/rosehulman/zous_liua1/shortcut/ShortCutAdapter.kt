@@ -10,10 +10,7 @@ class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCu
 
     //    private var shortCutList = ArrayList<ShortCut>()
     //model object
-    private var shortCutList = arrayListOf<ShortCut>(
-        ShortCut("shortcut1", "not available"),
-        ShortCut("shortcut2", "not available")
-    )
+    private var shortCutList = ArrayList<ShortCut>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortCutVH {
@@ -29,11 +26,21 @@ class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCu
 
     fun selectShortcutAt(adapterPosition: Int) {
         val shortCut = this.shortCutList[adapterPosition]
-        listener.onSCSelected(shortCut)
+        listener.onSCSelected(shortCut, adapterPosition)
     }
 
     fun selectShortcutForServiceAt(adapterPosition: Int) {
         val shortCut = this.shortCutList[adapterPosition]
         listener.onSCSelectedForService(shortCut)
+    }
+
+    fun addShortcut(shortcut: ShortCut){
+        shortCutList.add(0, shortcut)
+        notifyItemInserted(0)
+    }
+
+    fun editShortcut(shortcut: ShortCut, position: Int){
+        shortCutList[position] = shortcut
+        notifyItemChanged(position)
     }
 }
