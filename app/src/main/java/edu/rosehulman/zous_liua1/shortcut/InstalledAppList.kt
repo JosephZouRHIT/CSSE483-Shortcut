@@ -42,7 +42,7 @@ class InstalledAppList : Fragment(){
         for(pkg in pkgInfoList){
             if(pkg.applicationInfo.flags.and(ApplicationInfo.FLAG_SYSTEM) != 1) {
                 val name = pkg.applicationInfo.loadLabel(context!!.packageManager)
-                list.add(App(name.toString(), pkg))
+                list.add(App(name.toString(), pkg.packageName))
             }
         }
         return list
