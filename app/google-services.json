@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "895082571514",
+    "firebase_url": "https://shortcut-database.firebaseio.com",
+    "project_id": "shortcut-database",
+    "storage_bucket": "shortcut-database.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:895082571514:android:78234c696acb59e8",
+        "android_client_info": {
+          "package_name": "edu.rosehulman.zous_liua1.shortcut"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "895082571514-d3dk2n5q75slpemo6dhos74mclqevrjp.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "edu.rosehulman.zous_liua1.shortcut",
+            "certificate_hash": "d38c1444c695d827f3e8528e301a542aa744ef38"
+          }
+        },
+        {
+          "client_id": "895082571514-cbq8t8k1n690bqqphv64ou8c17cvjul0.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCpxt8_RXjmbNrT94pPlN43TJt17x0xII8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "895082571514-cbq8t8k1n690bqqphv64ou8c17cvjul0.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

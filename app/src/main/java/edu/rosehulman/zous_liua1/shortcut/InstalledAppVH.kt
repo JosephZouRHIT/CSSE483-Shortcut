@@ -25,7 +25,7 @@ class InstalledAppVH(itemView: View, val context: Context, val adapter: Installe
 
     fun bind(app: App){
         appName.text = app.name
-        appIcon.setImageDrawable(app.pkgInfo.applicationInfo.loadIcon(context.packageManager))
+        appIcon.setImageDrawable((context as MainActivity).packageManager.getApplicationIcon(app.pkgName))
     }
 
 }

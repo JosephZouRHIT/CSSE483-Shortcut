@@ -122,8 +122,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onAppClicked(app: App) {
-        val pkgName = app.pkgInfo.packageName
-        val intent = packageManager.getLaunchIntentForPackage(pkgName)
+        val intent = packageManager.getLaunchIntentForPackage(app.pkgName)
         intent?.addCategory(Intent.CATEGORY_LAUNCHER)
         if (intent != null) {
             startActivity(intent)

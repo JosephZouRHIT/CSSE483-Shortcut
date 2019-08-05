@@ -16,7 +16,7 @@ class AppVH(itemView: View, val context:Context, val adapter: AppAdapter): Recyc
     }
 
     fun bind(app: App){
-        imgView.setImageDrawable(app.pkgInfo.applicationInfo.loadIcon(context.packageManager))
+        imgView.setImageDrawable((context as MainActivity).packageManager.getApplicationIcon(app.pkgName))
         this.app = app
     }
 }
