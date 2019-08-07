@@ -6,6 +6,7 @@ object Constants {
     const val TYPE_SWIPE = "Swipe"
     const val DEFAULT_SHORTCUT_NAME = "Shortcut"
     const val DEFAULT_SHORTCUT_DESCRIPTION = "Insert Description"
+    const val SAVE_KEY = "shortcuts"
     const val SHORTCUT_TITLE = "title"
     const val SHORTCUT_DESCRIPTION = "description"
     const val SHORTCUT_APPS = "appList"

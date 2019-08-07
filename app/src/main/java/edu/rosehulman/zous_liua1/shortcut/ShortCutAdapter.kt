@@ -8,9 +8,7 @@ import androidx.recyclerview.widget.RecyclerView
 class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCutSelectedListener) :
     RecyclerView.Adapter<ShortCutVH>() {
 
-    //    private var shortCutList = ArrayList<ShortCut>()
-    //model object
-    private var shortCutList = ArrayList<ShortCut>()
+    var shortCutList = ArrayList<ShortCut>()
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortCutVH {
