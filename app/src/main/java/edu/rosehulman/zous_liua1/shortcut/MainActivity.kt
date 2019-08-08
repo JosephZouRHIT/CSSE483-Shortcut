@@ -175,7 +175,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 matchUserInfo(user)
             }else{
                 uid = ""
-//                login()
+                login()
             }
         }
     }
@@ -215,7 +215,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             } else {
                 toSettingActivity()
             }
-        } else {
+//        } else {
 //            startOverlayIntent()
         }
     }
