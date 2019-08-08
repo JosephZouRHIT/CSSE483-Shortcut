@@ -18,6 +18,10 @@ class ShortCutVH(itemView: View, adapter: ShortCutAdapter): RecyclerView.ViewHol
         itemView.setOnClickListener{
             adapter.selectShortcutForServiceAt(adapterPosition)
         }
+        itemView.setOnLongClickListener {
+            adapter.deleteShortcut(adapterPosition)
+            true
+        }
     }
 
     fun bind(shortcut: ShortCut){

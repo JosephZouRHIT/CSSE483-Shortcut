@@ -1,14 +1,48 @@
 package edu.rosehulman.zous_liua1.shortcut
 
 import android.content.Context
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import com.google.firebase.firestore.CollectionReference
+import com.google.firebase.firestore.DocumentChange
+import com.google.firebase.firestore.FirebaseFirestore
 
 class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCutSelectedListener) :
     RecyclerView.Adapter<ShortCutVH>() {
 
     var shortCutList = ArrayList<ShortCut>()
+    private var shortcutRef: CollectionReference
+
+    init{
+        shortcutRef = FirebaseFirestore.getInstance().collection((context as MainActivity).uid)
+        shortcutRef.addSnapshotListener { snapshot, exception ->
+            if(exception != null){
+                Log.e(Constants.TAG, "Listener exceeption $exception")
+                return@addSnapshotListener
+            }
+            for(shortCutChange in snapshot!!.documentChanges){
+                val shortCut = ShortCut.fromSnapShot(shortCutChange.document)
+                when(shortCutChange.type){
+                    DocumentChange.Type.ADDED ->{
+                        shortCutList.add(0, shortCut)
+                        notifyItemInserted(0)
+                    }
+                    DocumentChange.Type.MODIFIED ->{
+                        val pos = shortCutList.indexOfFirst { shortCutChange.document.id == it.id }
+                        shortCutList[pos] = shortCut
+                        notifyItemChanged(pos)
+                    }
+                    DocumentChange.Type.REMOVED ->{
+                        val pos = shortCutList.indexOfFirst { shortCutChange.document.id == it.id }
+                        shortCutList.removeAt(pos)
+                        notifyItemRemoved(pos)
+                    }
+                }
+            }
+        }
+    }
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ShortCutVH {
@@ -33,12 +67,14 @@ class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCu
     }
 
     fun addShortcut(shortcut: ShortCut){
-        shortCutList.add(0, shortcut)
-        notifyItemInserted(0)
+        shortcutRef.add(shortcut)
     }
 
     fun editShortcut(shortcut: ShortCut, position: Int){
-        shortCutList[position] = shortcut
-        notifyItemChanged(position)
+        shortcutRef.document(shortCutList[position].id).set(shortcut)
+    }
+
+    fun deleteShortcut(position: Int){
+        shortcutRef.document(shortCutList[position].id).delete()
     }
 }

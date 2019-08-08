@@ -126,6 +126,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.drawer_settings -> {
                 startActivity(Intent(Settings.ACTION_LOCALE_SETTINGS))
             }
+            R.id.drawer_sign_out -> {
+                auth.signOut()
+            }
         }
 
         val drawerLayout: DrawerLayout = findViewById(R.id.main)

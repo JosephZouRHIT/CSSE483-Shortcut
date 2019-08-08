@@ -12,7 +12,6 @@ data class ShortCut(var title: String = "", var description: String = "", var ap
     @get:Exclude var id: String = ""
     companion object{
         fun fromSnapShot(doc: DocumentSnapshot) : ShortCut{
-            //TODO: add method to create app objects accordingly
             val shortcut = doc.toObject(ShortCut::class.java)!!
             shortcut.id = doc.id
             return shortcut
