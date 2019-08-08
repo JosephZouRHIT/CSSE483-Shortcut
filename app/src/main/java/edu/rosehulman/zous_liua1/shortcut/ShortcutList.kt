@@ -42,7 +42,7 @@ class ShortcutList : Fragment() {
         if (context is OnShortCutSelectedListener) {
             listener = context
         } else {
-            throw RuntimeException(context.toString() + " must implement OnShortcutListener")
+            throw RuntimeException(context.toString() + " must implement OnShortcutListener") as Throwable
         }
     }
 

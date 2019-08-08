@@ -1,7 +1,7 @@
 package edu.rosehulman.zous_liua1.shortcut
 
-import android.content.Context
 import android.content.Intent
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.Settings
@@ -16,11 +16,11 @@ import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.View
 import android.widget.Toast
+import androidx.annotation.RequiresApi
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
-import com.squareup.picasso.Picasso
-import kotlinx.android.synthetic.main.activity_main.view.*
+//import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 
 class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener,
@@ -42,16 +42,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         val toolbar: Toolbar = findViewById(R.id.toolbar)
         setSupportActionBar(toolbar)
         shortcutList = ShortcutList()
-        var isDrawn = true
-        var intent: Intent? = null
-
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
-            isDrawn = Settings.canDrawOverlays(this)
-            if (!isDrawn){
-                startActivity(intent)
-            }
-        }
 
         fab = findViewById(R.id.fab)
         resetFab()
@@ -111,7 +101,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
         return when (item.itemId) {
-            R.id.action_settings -> true
+            R.id.action_settings -> {
+                startOverlayIntent()
+                true
+            }
+            R.id.stop_overlay -> {
+                stopOverlayService()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -145,8 +142,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onSCSelectedForService(shortCut: ShortCut) {
-        val service = Intent(this, OverlayService::class.java)
-        startService(service)
+        startOverlayIntent()
     }
 
     override fun onAppClicked(app: App) {
@@ -179,7 +175,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 matchUserInfo(user)
             }else{
                 uid = ""
-                login()
+//                login()
             }
         }
     }
@@ -188,7 +184,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         header.username_header.text = user.displayName
         header.textView.text = user.email
         if(user.photoUrl != null){
-            Picasso.get().load(user.photoUrl).into(header.imageView)
+//            Picasso.get().load(user.photoUrl).into(header.imageView)
         }
     }
 
@@ -204,5 +200,41 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 .setAvailableProviders(providers)
                 .build(),
             RC_SIGN_IN)
+    }
+
+    //Overlay Service
+    override fun onResume() {
+        super.onResume()
+        checkCompat()
+    }
+
+    private fun checkCompat() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+            if (Settings.canDrawOverlays(this)) {
+//                startOverlayIntent()
+            } else {
+                toSettingActivity()
+            }
+        } else {
+//            startOverlayIntent()
+        }
+    }
+
+    private fun startOverlayIntent() {
+        val intent = Intent(this, OverlayService::class.java)
+        startService(intent)
+//        finish()
+    }
+
+    private fun stopOverlayService(){
+        val intent = Intent(this, OverlayService::class.java)
+        stopService(intent)
+    }
+
+    @RequiresApi(Build.VERSION_CODES.M)
+    private fun toSettingActivity() {
+        val intent = Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION)
+        intent.data = Uri.parse("package:$packageName")
+        startActivity(intent)
     }
 }

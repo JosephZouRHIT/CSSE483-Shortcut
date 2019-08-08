@@ -17,6 +17,10 @@ class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCu
     private var shortcutRef: CollectionReference
 
     init{
+        val apps = ArrayList<App>()
+        val sc = ShortCut("123","12345",apps, false)
+        shortCutList.add(sc)
+
         shortcutRef = FirebaseFirestore.getInstance().collection((context as MainActivity).uid)
         shortcutRef.addSnapshotListener { snapshot, exception ->
             if(exception != null){
