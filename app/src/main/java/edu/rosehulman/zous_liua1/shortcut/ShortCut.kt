@@ -7,7 +7,7 @@ import kotlinx.android.parcel.Parcelize
 
 
 @Parcelize
-data class ShortCut(var title: String = "", var description: String = "", var appList: ArrayList<App> = ArrayList()): Parcelable{
+data class ShortCut(var title: String = "", var description: String = "", var appList: ArrayList<App> = ArrayList(), var isLocked: Boolean = false): Parcelable{
 
     @get:Exclude var id: String = ""
     companion object{

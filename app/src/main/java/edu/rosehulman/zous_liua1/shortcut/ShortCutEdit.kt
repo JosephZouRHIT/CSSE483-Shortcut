@@ -42,12 +42,14 @@ class ShortCutEdit : Fragment() {
         view.app_list.layoutManager = manager
         view.shortcut_title_edit.setText(shortcut.title)
         view.description_edit.setText(shortcut.description)
+        view.is_locked_edit.isChecked = shortcut.isLocked
         (context!! as MainActivity).title = shortcut.title
         val fab = (context!! as MainActivity).fab
         fab.setImageResource(R.drawable.ic_check_white_24dp)
         fab.setOnClickListener {
             shortcut.title = view.shortcut_title_edit.text.toString()
             shortcut.description = view.description_edit.text.toString()
+            shortcut.isLocked = view.is_locked_edit.isChecked
             val fragment = when(position < 0){
                 true -> {
                     (context!! as MainActivity).resetTitle()

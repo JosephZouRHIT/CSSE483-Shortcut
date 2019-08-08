@@ -4,6 +4,7 @@ import android.content.Context
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import android.widget.Toast
 import androidx.recyclerview.widget.RecyclerView
 import com.google.firebase.firestore.CollectionReference
 import com.google.firebase.firestore.DocumentChange
@@ -75,6 +76,11 @@ class ShortCutAdapter(var context: Context, var listener: ShortcutList.OnShortCu
     }
 
     fun deleteShortcut(position: Int){
-        shortcutRef.document(shortCutList[position].id).delete()
+        val shortcut = shortCutList[position]
+        if(shortcut.isLocked){
+            Toast.makeText(context, "This shortcut is locked", Toast.LENGTH_LONG).show()
+        }else{
+            shortcutRef.document(shortcut.id).delete()
+        }
     }
 }

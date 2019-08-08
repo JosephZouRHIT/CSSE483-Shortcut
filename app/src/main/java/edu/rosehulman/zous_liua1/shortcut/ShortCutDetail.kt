@@ -33,6 +33,11 @@ class ShortCutDetail : Fragment() {
         val view = inflater.inflate(R.layout.fragment_shortcut_detail, container, false)
         view.shortcut_title_detail.text = shortcut.title
         view.description_detail.text = shortcut.description
+        if(shortcut.isLocked){
+            view.lock_state_detail.text = getString(R.string.locked_state)
+        }else{
+            view.lock_state_detail.text = getString(R.string.unlocked_state)
+        }
         view.app_list_detail.adapter = AppAdapter(context!!, shortcut.appList, null, false)
         val manager = LinearLayoutManager(context)
         manager.orientation = LinearLayoutManager.HORIZONTAL
