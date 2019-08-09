@@ -17,6 +17,11 @@ class InstalledAppAdapter(var context: Context, var appList: ArrayList<App>): Re
     override fun getItemCount(): Int = appList.size
 
     override fun onBindViewHolder(holder: InstalledAppVH, position: Int) {
+        if(selectedApps.contains(appList[position])){
+            holder.setSelected(true)
+        }else{
+            holder.setSelected(false)
+        }
         holder.bind(appList[position])
     }
 
@@ -26,9 +31,5 @@ class InstalledAppAdapter(var context: Context, var appList: ArrayList<App>): Re
 
     fun deselectApp(position: Int){
         selectedApps.remove(appList[position])
-    }
-
-    fun resetSelection(){
-        selectedApps.clear()
     }
 }

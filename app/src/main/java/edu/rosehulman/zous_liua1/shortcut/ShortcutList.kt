@@ -29,6 +29,8 @@ class ShortcutList : Fragment() {
         recyclerView.adapter = adapter
         recyclerView.layoutManager = LinearLayoutManager(context)
         recyclerView.setHasFixedSize(true)
+        (context!! as MainActivity).resetFab()
+        (context!! as MainActivity).resetTitle()
         return recyclerView
     }
 

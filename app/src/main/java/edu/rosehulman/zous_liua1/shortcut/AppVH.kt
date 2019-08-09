@@ -11,7 +11,7 @@ class AppVH(itemView: View, val context:Context, val adapter: AppAdapter): Recyc
 
     init{
         imgView.setOnClickListener {
-            adapter.appClicked(adapterPosition)
+            adapter.appClicked()
         }
     }
 

@@ -34,7 +34,8 @@ class ShortCutEdit : Fragment() {
         savedInstanceState: Bundle?
     ): View? {
         val view = inflater.inflate(R.layout.fragment_shortcut_edit, container, false)
-        appListAdapter = AppAdapter(context!!, shortcut.appList, listener!!, true)
+        val tempSC = ShortCut(shortcut.title, shortcut.description, shortcut.appList, shortcut.isLocked)
+        appListAdapter = AppAdapter(context!!, position, tempSC, listener!!, true)
         view.app_list.setHasFixedSize(true)
         view.app_list.adapter = appListAdapter
         val manager = LinearLayoutManager(context)
@@ -50,6 +51,7 @@ class ShortCutEdit : Fragment() {
             shortcut.title = view.shortcut_title_edit.text.toString()
             shortcut.description = view.description_edit.text.toString()
             shortcut.isLocked = view.is_locked_edit.isChecked
+            shortcut.appList = tempSC.appList
             val fragment = when(position < 0){
                 true -> {
                     (context!! as MainActivity).resetTitle()
@@ -65,9 +67,6 @@ class ShortCutEdit : Fragment() {
             }
             val ft = (context!! as MainActivity).supportFragmentManager.beginTransaction()
             ft.replace(R.id.fragment_container, fragment)
-            if(position < 0){
-                ft.addToBackStack("detail")
-            }
             ft.commit()
         }
         return view
@@ -94,7 +93,7 @@ class ShortCutEdit : Fragment() {
     }
 
     interface OnAppClickedListener {
-        fun onAppClicked(app: App)
+        fun onAppClicked(shortcut: ShortCut, position: Int)
     }
 
     companion object {

@@ -23,6 +23,15 @@ class InstalledAppVH(itemView: View, val context: Context, val adapter: Installe
         }
     }
 
+    fun setSelected(select: Boolean){
+        isSelected = select
+        if(isSelected){
+            itemView.setBackgroundColor(context.getColor(R.color.colorRed))
+        }else{
+            itemView.setBackgroundColor(context.getColor(R.color.colorWhite))
+        }
+    }
+
     fun bind(app: App){
         appName.text = app.name
         appIcon.setImageDrawable((context as MainActivity).packageManager.getApplicationIcon(app.pkgName))

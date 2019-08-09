@@ -5,22 +5,22 @@ import android.view.LayoutInflater
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
 
-class AppAdapter(var context: Context, var appList: ArrayList<App>, var listener: ShortCutEdit.OnAppClickedListener?, val isEditable: Boolean): RecyclerView.Adapter<AppVH>() {
+class AppAdapter(var context: Context,var position: Int, var shortcut: ShortCut, var listener: ShortCutEdit.OnAppClickedListener?, val isEditable: Boolean): RecyclerView.Adapter<AppVH>() {
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): AppVH {
         val view = LayoutInflater.from(context).inflate(R.layout.app_card, parent, false)
         return AppVH(view, context, this)
     }
 
-    override fun getItemCount(): Int = appList.size
+    override fun getItemCount(): Int = shortcut.appList.size
 
     override fun onBindViewHolder(holder: AppVH, position: Int) {
-        holder.bind(appList[position])
+        holder.bind(shortcut.appList[position])
     }
 
-    fun appClicked(position: Int){
+    fun appClicked(){
         if(isEditable){
-            listener?.onAppClicked(appList[position])
+            listener?.onAppClicked(shortcut, position)
         }
     }
 }

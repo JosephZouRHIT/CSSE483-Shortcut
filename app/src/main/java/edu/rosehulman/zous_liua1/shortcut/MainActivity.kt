@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun switchToCreateShortcutFragment() {
         val ft = supportFragmentManager.beginTransaction()
-        ft.replace(R.id.fragment_container, InstalledAppList())
+        ft.replace(R.id.fragment_container, InstalledAppList.newInstance(null, -1))
         ft.addToBackStack("installedApps")
         ft.commit()
     }
@@ -145,14 +145,18 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startOverlayIntent()
     }
 
-    override fun onAppClicked(app: App) {
-        val intent = packageManager.getLaunchIntentForPackage(app.pkgName)
-        intent?.addCategory(Intent.CATEGORY_LAUNCHER)
-        if (intent != null) {
-            startActivity(intent)
-        } else {
-            Toast.makeText(this, "Cannot launch app", Toast.LENGTH_LONG).show()
-        }
+    override fun onAppClicked(shortcut: ShortCut, position: Int) {
+//        val intent = packageManager.getLaunchIntentForPackage(app.pkgName)
+//        intent?.addCategory(Intent.CATEGORY_LAUNCHER)
+//        if (intent != null) {
+//            startActivity(intent)
+//        } else {
+//            Toast.makeText(this, "Cannot launch app", Toast.LENGTH_LONG).show()
+//        }
+        val ft = supportFragmentManager.beginTransaction()
+        ft.replace(R.id.fragment_container, InstalledAppList.newInstance(shortcut, position))
+        ft.addToBackStack("installedApps")
+        ft.commit()
     }
 
     fun resetFab() {
