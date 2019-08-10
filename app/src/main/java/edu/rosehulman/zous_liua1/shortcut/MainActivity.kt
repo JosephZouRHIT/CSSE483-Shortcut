@@ -126,6 +126,8 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onSCSelectedForService(shortcut: ShortCut) {
         overlayIntent = Intent(this, OverlayService::class.java)
+        stopService(overlayIntent)
+        overlayIntent = Intent(this, OverlayService::class.java)
         overlayIntent?.putExtra(Constants.DEFAULT_SHORTCUT_NAME, shortcut)
         startService(overlayIntent)
     }
@@ -192,13 +194,9 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun checkCompat() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            if (Settings.canDrawOverlays(this)) {
-//                startOverlayIntent()
-            } else {
+            if (!Settings.canDrawOverlays(this)) {
                 toSettingActivity()
             }
-//        } else {
-//            startOverlayIntent()
         }
     }
 

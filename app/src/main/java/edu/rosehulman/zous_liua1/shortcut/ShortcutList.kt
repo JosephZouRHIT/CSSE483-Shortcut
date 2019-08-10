@@ -10,11 +10,6 @@ import android.view.ViewGroup
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 
-
-private const val ARG_PARAM1 = "param1"
-private const val ARG_PARAM2 = "param2"
-
-
 class ShortcutList : Fragment() {
     private var listener: OnShortCutSelectedListener? = null
     lateinit var adapter: ShortCutAdapter
