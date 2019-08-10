@@ -12,12 +12,13 @@ import kotlinx.android.synthetic.main.layout_assistive_touch.view.*
 
 class Overlay(
         private val context: Context
-) : View.OnClickListener {
+, private val shortcut: ShortCut) : View.OnClickListener {
 
     private val overlayLocal = LayoutInflater.from(context).inflate(R.layout.layout_assistive_touch, null)
     private val overlayWindowManager by lazy {
         OverlayWindowManager(context)
     }
+    private val player = Player(shortcut, context)
     private val lp: WindowManager.LayoutParams by lazy {
         val temp = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -80,11 +81,12 @@ class Overlay(
 
         })
 
-        overlayLocal.temp_btn.setOnClickListener(this)
+        overlayLocal.stop_btn.setOnClickListener(this)
         overlayLocal.prev_btn.setOnClickListener(this)
         overlayLocal.next_btn.setOnClickListener(this)
         overlayLocal.home_btn.setOnClickListener(this)
         overlayLocal.menuCl.setOnClickListener(this)
+        player.startShortcut()
     }
 
     private fun adjustPositionWhenMove() {
@@ -140,10 +142,21 @@ class Overlay(
 
     override fun onClick(v: View?) {
         when (v?.id) {
-            R.id.temp_btn -> Toast.makeText(context, "sc", Toast.LENGTH_SHORT).show()
-            R.id.prev_btn -> Toast.makeText(context, "prev", Toast.LENGTH_SHORT).show()
-            R.id.next_btn -> Toast.makeText(context, "next", Toast.LENGTH_SHORT).show()
-            R.id.home_btn -> Toast.makeText(context, "home", Toast.LENGTH_SHORT).show()
+            R.id.stop_btn -> {
+                removeOverlayService()
+                Toast.makeText(context, "Shortcut Stopped", Toast.LENGTH_SHORT).show()
+            }
+            R.id.prev_btn -> {
+                player.previousApp()
+                Toast.makeText(context, "App ${player.position}", Toast.LENGTH_SHORT).show()
+            }
+            R.id.next_btn -> {
+                player.nextApp()
+                Toast.makeText(context, "App ${player.position}", Toast.LENGTH_SHORT).show()
+            }
+            R.id.home_btn -> {
+                player.toShortCut()
+            }
         }
         overlayLocal.menuCl.visibility = View.GONE
         overlayLocal.menuView.visibility = View.VISIBLE

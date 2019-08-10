@@ -6,20 +6,24 @@ import android.os.IBinder
 
 
 class OverlayService : Service() {
+    private lateinit var shortCut: ShortCut
 
-    private val overlay by lazy { Overlay(this) }
+    private lateinit var overlay: Lazy<Overlay>
+//    private val overlay by lazy { Overlay(this) }
 
     override fun onBind(intent: Intent?): IBinder? {
         return null
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        overlay.addOverlayService()
+        shortCut = intent!!.getParcelableExtra(Constants.DEFAULT_SHORTCUT_NAME)
+        overlay = lazy { Overlay(this, shortCut) }
+        overlay.value.addOverlayService()
         return super.onStartCommand(intent, flags, startId)
     }
 
     override fun onDestroy() {
-        overlay.removeOverlayService()
+        overlay.value.removeOverlayService()
         super.onDestroy()
     }
 

@@ -24,4 +24,8 @@
     <string name="lock_prompt">Lock this shortcut?</string>
     <string name="locked_state">This shortcut is Locked</string>
     <string name="unlocked_state">This shortcut is not locked</string>
+    <string name="stop">Stop</string>
+    <string name="prev">Prev</string>
+    <string name="next">Next</string>
+    <string name="home">Home</string>
 </resources>

@@ -14,7 +14,7 @@ class InstalledAppVH(itemView: View, val context: Context, val adapter: Installe
         itemView.setOnClickListener {
             isSelected = !isSelected
             if(isSelected){
-                itemView.setBackgroundColor(context.getColor(R.color.colorRed))
+                itemView.setBackgroundColor(context.getColor(R.color.colorDarkRed))
                 adapter.selectApp(adapterPosition)
             }else{
                 itemView.setBackgroundColor(context.getColor(R.color.colorWhite))
@@ -26,7 +26,7 @@ class InstalledAppVH(itemView: View, val context: Context, val adapter: Installe
     fun setSelected(select: Boolean){
         isSelected = select
         if(isSelected){
-            itemView.setBackgroundColor(context.getColor(R.color.colorRed))
+            itemView.setBackgroundColor(context.getColor(R.color.colorDarkRed))
         }else{
             itemView.setBackgroundColor(context.getColor(R.color.colorWhite))
         }

@@ -15,11 +15,12 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.appcompat.widget.Toolbar
 import android.view.Menu
 import android.view.View
-import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.fragment.app.FragmentManager
 import com.firebase.ui.auth.AuthUI
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.FirebaseUser
+import com.squareup.picasso.Picasso
 //import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.nav_header_main.view.*
 
@@ -32,6 +33,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var authListener: FirebaseAuth.AuthStateListener
     lateinit var uid: String
     private lateinit var header: View
+    private var overlayIntent: Intent? = null
 
     private lateinit var fab: FloatingActionButton
     lateinit var shortcutList: ShortcutList
@@ -90,33 +92,14 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
     }
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        menuInflater.inflate(R.menu.main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        return when (item.itemId) {
-            R.id.action_settings -> {
-                startOverlayIntent()
-                true
-            }
-            R.id.stop_overlay -> {
-                stopOverlayService()
-                true
-            }
-            else -> super.onOptionsItemSelected(item)
-        }
-    }
-
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
         // Handle navigation view item clicks here.
         when (item.itemId) {
             R.id.drawer_list -> {
+                if(supportFragmentManager.backStackEntryCount > 0){
+                    val first = supportFragmentManager.getBackStackEntryAt(0)
+                    supportFragmentManager.popBackStack(first.id, FragmentManager.POP_BACK_STACK_INCLUSIVE)
+                }
                 switchToShortcutListFragment()
             }
 
@@ -141,18 +124,13 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         ft.commit()
     }
 
-    override fun onSCSelectedForService(shortCut: ShortCut) {
-        startOverlayIntent()
+    override fun onSCSelectedForService(shortcut: ShortCut) {
+        overlayIntent = Intent(this, OverlayService::class.java)
+        overlayIntent?.putExtra(Constants.DEFAULT_SHORTCUT_NAME, shortcut)
+        startService(overlayIntent)
     }
 
     override fun onAppClicked(shortcut: ShortCut, position: Int) {
-//        val intent = packageManager.getLaunchIntentForPackage(app.pkgName)
-//        intent?.addCategory(Intent.CATEGORY_LAUNCHER)
-//        if (intent != null) {
-//            startActivity(intent)
-//        } else {
-//            Toast.makeText(this, "Cannot launch app", Toast.LENGTH_LONG).show()
-//        }
         val ft = supportFragmentManager.beginTransaction()
         ft.replace(R.id.fragment_container, InstalledAppList.newInstance(shortcut, position))
         ft.addToBackStack("installedApps")
@@ -188,7 +166,7 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         header.username_header.text = user.displayName
         header.textView.text = user.email
         if(user.photoUrl != null){
-//            Picasso.get().load(user.photoUrl).into(header.imageView)
+            Picasso.get().load(user.photoUrl).into(header.imageView)
         }
     }
 
@@ -222,17 +200,6 @@ class MainActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 //        } else {
 //            startOverlayIntent()
         }
-    }
-
-    private fun startOverlayIntent() {
-        val intent = Intent(this, OverlayService::class.java)
-        startService(intent)
-//        finish()
-    }
-
-    private fun stopOverlayService(){
-        val intent = Intent(this, OverlayService::class.java)
-        stopService(intent)
     }
 
     @RequiresApi(Build.VERSION_CODES.M)
