@@ -19,7 +19,7 @@ class Overlay(
         OverlayWindowManager(context)
     }
     private val player = Player(shortcut, context)
-    private val lp: WindowManager.LayoutParams by lazy {
+    private val layoutParams: WindowManager.LayoutParams by lazy {
         val temp = WindowManager.LayoutParams(
                 WindowManager.LayoutParams.WRAP_CONTENT,
                 WindowManager.LayoutParams.WRAP_CONTENT,
@@ -51,10 +51,10 @@ class Overlay(
                     val diffY = event.rawY - deltaY
                     deltaX = event.rawX
                     deltaY = event.rawY
-                    lp.x = Math.floor(lp.x + diffX + 0.5).toInt()
-                    lp.y = Math.floor(lp.y + diffY + 0.5).toInt()
+                    layoutParams.x = Math.floor(layoutParams.x + diffX + 0.5).toInt()
+                    layoutParams.y = Math.floor(layoutParams.y + diffY + 0.5).toInt()
                     adjustPositionWhenMove()
-                    overlayWindowManager.updateOverlay(overlayLocal, lp)
+                    overlayWindowManager.updateOverlay(overlayLocal, layoutParams)
                     inMotion = true
                 }
                 MotionEvent.ACTION_UP -> adjustPositionWhenActionUp()
@@ -90,24 +90,24 @@ class Overlay(
     }
 
     private fun adjustPositionWhenMove() {
-        if (lp.x < 0) {
-            lp.x = 0
+        if (layoutParams.x < 0) {
+            layoutParams.x = 0
         }
-        if (lp.x + windowWidth > overlayWindowManager.windowWidth) {
-            lp.x = overlayWindowManager.windowWidth - windowWidth
+        if (layoutParams.x + windowWidth > overlayWindowManager.windowWidth) {
+            layoutParams.x = overlayWindowManager.windowWidth - windowWidth
         }
 
-        if (lp.y < 0) {
-            lp.y = 0
+        if (layoutParams.y < 0) {
+            layoutParams.y = 0
         }
-        if (lp.y + windowHeight > overlayWindowManager.surplusHeight) {
-            lp.y = overlayWindowManager.surplusHeight - windowHeight
+        if (layoutParams.y + windowHeight > overlayWindowManager.surplusHeight) {
+            layoutParams.y = overlayWindowManager.surplusHeight - windowHeight
         }
     }
 
     private fun adjustPositionWhenActionUp() {
-        val left = lp.x
-        val top = lp.y
+        val left = layoutParams.x
+        val top = layoutParams.y
         val right = overlayWindowManager.windowWidth - windowWidth - left
         val bottom = overlayWindowManager.windowHeight - windowHeight - top
         scrollAnimator = ObjectAnimator()
@@ -163,7 +163,7 @@ class Overlay(
     }
 
     fun addOverlayService() {
-        overlayWindowManager.addOverlay(overlayLocal, lp)
+        overlayWindowManager.addOverlay(overlayLocal, layoutParams)
     }
 
     fun removeOverlayService() {
